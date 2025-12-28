@@ -1,0 +1,375 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+  .hero-section {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 8rem 0 6rem;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .welcome-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-subtitle {
+    font-size: 1.375rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    line-height: 1.7;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .feature-list {
+    margin: 3rem 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .feature-list li {
+    position: relative;
+    padding-left: 2.5rem;
+    margin-bottom: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+  }
+
+  .feature-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #10b981;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .feature-list li:hover {
+    transform: translateX(10px);
+    color: white;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+  }
+
+  .cta-buttons .btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .cta-buttons .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  .how-it-works-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1.5rem;
+    padding: 3rem;
+    height: 100%;
+    transition: all 0.4s ease;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .how-it-works-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+  }
+
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .floating-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    filter: blur(40px);
+  }
+
+  .shape-1 {
+    width: 400px;
+    height: 400px;
+    background: #ffffff;
+    top: -200px;
+    right: -200px;
+    animation: float 20s ease-in-out infinite;
+  }
+
+  .shape-2 {
+    width: 300px;
+    height: 300px;
+    background: #10b981;
+    bottom: -150px;
+    left: -150px;
+    animation: float 25s ease-in-out infinite reverse;
+  }
+
+  .shape-3 {
+    width: 200px;
+    height: 200px;
+    background: #f59e0b;
+    top: 50%;
+    left: 20%;
+    animation: float 15s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(30px, 30px) rotate(90deg); }
+    50% { transform: translate(0, 60px) rotate(180deg); }
+    75% { transform: translate(-30px, 30px) rotate(270deg); }
+  }
+
+  @media (max-width: 991.98px) {
+    .hero-section {
+      padding: 6rem 0 4rem;
+      text-align: center;
+      min-height: auto;
+    }
+
+    .hero-title {
+      font-size: 2.8rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      justify-content: center;
+    }
+
+    .feature-list {
+      text-align: left;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .how-it-works-card {
+      padding: 2rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero-title {
+      font-size: 2.2rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-buttons .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+  <div class="floating-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+  </div>
+  
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <div class="hero-content">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          
+          <span class="welcome-badge">
+            <i class="fa-solid fa-sparkles me-2"></i> Welcome to Gen AI Email
+          </span>
+          
+          <h1 class="hero-title">Smarter Email Management with AI</h1>
+          
+          <p class="hero-subtitle">
+            Automatically classify your emails into <span class="text-primary fw-bold">Important</span>,
+            <span class="text-success fw-bold">Promotional</span>, and <span class="text-danger fw-bold">Spam</span>
+            with our advanced AI-powered email classification system.
+          </p>
+          
+          <ul class="feature-list">
+            <li>Secure authentication with password hashing</li>
+            <li>Real-time email classification</li>
+            <li>Batch processing for multiple emails</li>
+            <li>Detailed performance metrics and analytics</li>
+            <li>User-friendly dashboard</li>
+          </ul>
+          
+          <div class="cta-buttons">
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-4">
+              <i class="fa-solid fa-rocket me-2"></i> Get Started Free
+            </a>
+            <a href="#how-it-works" class="btn btn-outline-primary btn-lg px-4">
+              <i class="fa-solid fa-circle-info me-2"></i> Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-6">
+        <div class="how-it-works-card">
+          <div class="step-number">1</div>
+          <h3 class="h4 mb-3">How It Works</h3>
+          <div class="mb-4">
+            <p class="mb-3">
+              Our AI model analyzes email content using advanced natural language processing to accurately
+              categorize your emails in real-time.
+            </p>
+            <ol class="ps-3">
+              <li class="mb-2">Sign up for a free account</li>
+              <li class="mb-2">Paste an email or upload a CSV file</li>
+              <li class="mb-2">Get instant classification results</li>
+              <li>View detailed analytics and metrics</li>
+            </ol>
+          </div>
+          <a href="{{ url_for('login') }}" class="btn btn-outline-primary w-100">
+            <i class="fa-solid fa-right-to-bracket me-2"></i> Sign In
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works" class="py-5 bg-white">
+  <div class="container py-5">
+    <div class="text-center mb-5">
+      <h2 class="display-5 fw-bold mb-3">How It Works</h2>
+      <p class="lead text-muted mx-auto" style="max-width: 700px;">
+        Our AI-powered email classification system helps you manage your inbox efficiently by automatically
+        categorizing your emails into relevant categories.
+      </p>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-primary bg-opacity-10 p-3 rounded-3 me-3">
+                <i class="fas fa-upload fa-lg text-primary"></i>
+              </div>
+              <h3 class="h5 mb-0">1. Upload</h3>
+            </div>
+            <p class="text-muted mb-0">
+              Upload your emails individually or in bulk using our simple interface or API integration.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-success bg-opacity-10 p-3 rounded-3 me-3">
+                <i class="fas fa-brain fa-lg text-success"></i>
+              </div>
+              <h3 class="h5 mb-0">2. Analyze</h3>
+            </div>
+            <p class="text-muted mb-0">
+              Our AI processes the content using advanced NLP techniques to understand the context and intent.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-info bg-opacity-10 p-3 rounded-3 me-3">
+                <i class="fas fa-chart-pie fa-lg text-info"></i>
+              </div>
+              <h3 class="h5 mb-0">3. Results</h3>
+            </div>
+            <p class="text-muted mb-0">
+              View detailed classification results, confidence scores, and analytics in your dashboard.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

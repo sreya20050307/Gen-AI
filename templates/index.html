@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row align-items-center hero-row">
+  <div class="col-lg-7 mb-4 mb-lg-0">
+    <div class="hero-copy">
+      <span class="badge rounded-pill bg-soft-primary text-primary mb-3">
+        <i class="fa-solid fa-sparkles me-1"></i> Gen AI for your inbox
+      </span>
+      <h1 class="hero-title mb-3">Classify organizational emails with <span class="highlight">Gen AI precision</span>.</h1>
+      <p class="hero-subtitle mb-4">
+        Turn a noisy inbox into a prioritized workflow. Automatically separate
+        <strong>Important</strong>, <strong>Promotional</strong>, and <strong>Spam</strong>
+        messages using a production-ready NLP pipeline.
+      </p>
+      <div class="d-flex flex-wrap gap-2 mb-4">
+        <a class="btn btn-primary btn-lg shadow-soft" href="{{ url_for('classify_email') }}">
+          <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Try single email
+        </a>
+        <a class="btn btn-outline-light btn-lg shadow-soft" href="{{ url_for('batch_classification') }}">
+          <i class="fa-solid fa-table me-2"></i>Upload CSV batch
+        </a>
+      </div>
+      <div class="hero-metadata small text-light-50">
+        <div class="d-flex flex-wrap gap-3">
+          <span><i class="fa-solid fa-brain me-1"></i>TF-IDF + Logistic Regression</span>
+          <span><i class="fa-solid fa-lock me-1"></i>Secure user login</span>
+          <span><i class="fa-solid fa-gauge-high me-1"></i>Real-time predictions</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="hero-image-wrapper text-center">
+      <!-- Replace the src below with your own Google or generated image if you prefer -->
+      <img
+        src="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=900"
+        class="img-fluid rounded shadow-soft"
+        alt="Illustration of an email classification dashboard"
+      >
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5 g-4">
+  <div class="col-md-4">
+    <div class="info-card glass-card h-100">
+      <div class="info-icon mb-3">
+        <i class="fa-solid fa-layer-group"></i>
+      </div>
+      <h5>About this website</h5>
+      <p class="text-muted small mb-0">
+        This demo shows how Gen AI Email classifies organizational emails into
+        Important, Promotional, and Spam, using a production-style ML pipeline
+        wrapped in a simple, secure web interface.
+      </p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="info-card glass-card h-100">
+      <div class="info-icon mb-3">
+        <i class="fa-solid fa-diagram-project"></i>
+      </div>
+      <h5>Designed for organizations</h5>
+      <p class="text-muted small mb-0">
+        Built to sit in front of a corporate inbox, helping teams distinguish urgent
+        and actionable work from noise at a glance.
+      </p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="info-card glass-card h-100">
+      <div class="info-icon mb-3">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <h5>Secure & extensible</h5>
+      <p class="text-muted small mb-0">
+        Login-protected dashboards, hashed passwords, and a modular architecture you
+        can adapt to new labels or datasets.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

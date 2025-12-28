@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-3">
+  <div class="col-12 d-flex justify-content-between align-items-center">
+    <div>
+      <h2 class="page-title mb-1">Operations dashboard</h2>
+      <p class="text-muted small mb-0">Paste live emails from your inbox and monitor how they are classified.</p>
+    </div>
+    <div class="d-none d-md-flex gap-2">
+      <span class="badge bg-soft-success text-success"><i class="fa-solid fa-circle-play me-1"></i>Live session</span>
+      <span class="badge bg-soft-primary text-primary"><i class="fa-solid fa-user-shield me-1"></i>Authenticated</span>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card glass-card shadow-soft h-100">
+      <div class="card-body">
+        <h6 class="mb-3">Classify an incoming email</h6>
+        <form method="post">
+          <div class="mb-3">
+            <label for="email_text" class="form-label small text-uppercase text-muted">Email content</label>
+            <textarea class="form-control" id="email_text" name="email_text" rows="9" placeholder="Paste a real email from your organizational inbox here..." required></textarea>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <small class="text-muted">Subject + body recommended for best signal.</small>
+            <button type="submit" class="btn btn-primary btn-sm">
+              <i class="fa-solid fa-magnifying-glass-chart me-1"></i>Analyze
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card glass-card shadow-soft mb-3">
+      <div class="card-body">
+        <h6 class="mb-2">Most recent prediction</h6>
+        {% if prediction %}
+          <p class="mb-3">
+            <span class="badge prediction-badge prediction-{{ prediction|lower }}">
+              <i class="fa-solid fa-circle-dot me-1"></i>{{ prediction|capitalize }}
+            </span>
+          </p>
+          <div class="table-responsive-sm">
+            <table class="table table-sm table-borderless align-middle mb-0 prob-table">
+              <thead>
+                <tr class="text-muted small">
+                  <th scope="col">Class</th>
+                  <th scope="col" style="width:60%">Confidence</th>
+                  <th scope="col" class="text-end">%</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="small">{{ prediction|capitalize }}</td>
+                  <td>
+                    <div class="progress prob-progress">
+                      <div class="progress-bar" role="progressbar" 
+                           style="width: {{ '%.0f'|format(confidence * 100) }}%;" 
+                           aria-valuenow="{{ '%.0f'|format(confidence * 100) }}" 
+                           aria-valuemin="0" 
+                           aria-valuemax="100">
+                      </div>
+                    </div>
+                  </td>
+                  <td class="small text-end">{{ '%.2f'|format(confidence * 100) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p class="text-muted small mb-0">No predictions yet in this session. Paste an email to see results here.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="card glass-card shadow-soft">
+      <div class="card-body">
+        <h6 class="mb-2">Quick tips</h6>
+        <ul class="small text-muted mb-0">
+          <li>Feed the model with real emails your team receives most often.</li>
+          <li>Use the batch page to validate performance on historical data.</li>
+          <li>Retrain periodically when you introduce new categories or datasets.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

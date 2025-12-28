@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-5 col-md-7">
+    <div class="card glass-card shadow-soft auth-card">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="page-title mb-1 text-center">Create your account</h2>
+        <p class="text-muted small text-center mb-4">Set up access to the Gen AI Email dashboard.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="post" novalidate>
+          <div class="mb-3">
+            <label for="email" class="form-label small text-uppercase text-muted">Work email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="you@company.com" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label small text-uppercase text-muted">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Minimum 6 characters" required>
+          </div>
+          <div class="mb-3">
+            <label for="confirm_password" class="form-label small text-uppercase text-muted">Confirm password</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Re-type your password" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 mt-2 mb-3">
+            <i class="fa-solid fa-user-plus me-1"></i>Sign up
+          </button>
+        </form>
+
+        <p class="text-center small text-muted mb-0">
+          Already have an account?
+          <a href="{{ url_for('login') }}" class="link-light text-decoration-none">Log in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

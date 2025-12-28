@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}Classify Email - Email Classifier{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold mb-3">Email Classification</h1>
+                <p class="lead text-muted">Paste an email below to automatically classify it as Important, Promotion, or Spam</p>
+                
+                {% if error %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>{{ error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Classification Form -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <form method="post" id="classifyForm">
+                        <div class="mb-3">
+                            <label for="email_text" class="form-label fw-semibold">Email Content</label>
+                            <textarea class="form-control form-control-lg auto-expand" id="email_text" name="email_text" rows="8" 
+                                      placeholder="Paste the email content here, including subject and body..." 
+                                      required></textarea>
+                            <div class="form-text">For best results, include both the subject and body of the email.</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="clearForm" onclick="clearForm()">
+                                    <i class="fas fa-eraser me-1"></i>Clear
+                                </button>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary px-4">
+                                    <i class="fas fa-magic-wand-sparkles me-2"></i>Classify Email
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tips Section -->
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-body p-4">
+                    <h2 class="h5 fw-bold mb-3">How It Works</h2>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="d-flex">
+                                <div class="me-3 text-primary">
+                                    <i class="fas fa-robot fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h3 class="h6 fw-semibold mb-1">AI-Powered</h3>
+                                    <p class="small text-muted mb-0">Uses advanced machine learning to analyze email content and context.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex">
+                                <div class="me-3 text-success">
+                                    <i class="fas fa-tachometer-alt fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h3 class="h6 fw-semibold mb-1">Real-Time</h3>
+                                    <p class="small text-muted mb-0">Get instant classification results as you type or paste.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex">
+                                <div class="me-3 text-info">
+                                    <i class="fas fa-shield-alt fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h3 class="h6 fw-semibold mb-1">Privacy Focused</h3>
+                                    <p class="small text-muted mb-0">Your emails are processed securely and never stored.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sample Email Template (Hidden) -->
+<template id="sampleEmailTemplate">
+Subject: Project Deadline Extension Approved
+
+Dear Team,
+
+I'm pleased to inform you that the client has approved our request for a one-week extension on the Q3 marketing campaign project. The new deadline is now Friday, December 15th.
+
+This gives us the necessary time to implement the latest feedback and ensure all deliverables meet our high standards. Please adjust your schedules accordingly and let me know if you have any questions.
+
+Best regards,
+Sarah Johnson
+Project Manager
+</template>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Progress bar styles */
+    .progress-bar-important { background-color: #4f46e5; }
+    .progress-bar-promotion { background-color: #10b981; }
+    .progress-bar-spam { background-color: #ef4444; }
+    
+    /* Prediction badges */
+    .prediction-badge-important {
+        background-color: #eef2ff;
+        color: #4f46e5;
+    }
+    .prediction-badge-promotion {
+        background-color: #ecfdf5;
+        color: #10b981;
+    }
+    .prediction-badge-spam {
+        background-color: #fef2f2;
+        color: #ef4444;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+    
+    /* Auto-expanding textarea */
+    .auto-expand {
+        min-height: 100px;
+        resize: none;
+        overflow-y: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto-expand textarea as user types
+    document.addEventListener('DOMContentLoaded', function() {
+        const textareas = document.querySelectorAll('.auto-expand');
+        
+        textareas.forEach(textarea => {
+            // Set initial height
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight) + 'px';
+            
+            // Auto-expand on input
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        });
+    });
+    
+    // Clear form function
+    function clearForm() {
+        document.getElementById('email_text').value = '';
+        // Trigger input event to reset textarea height
+        const event = new Event('input', { bubbles: true });
+        document.getElementById('email_text').dispatchEvent(event);
+        
+        // Scroll to top of the form
+        document.getElementById('classifyForm').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Add animation to results when they appear
+    const resultsCard = document.getElementById('resultsCard');
+    if (resultsCard) {
+        resultsCard.classList.add('animate__animated', 'animate__fadeInUp');
+    }
+</script>
+{% endblock %}
